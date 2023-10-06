@@ -26,6 +26,6 @@ The query fetching is happening in the `page.tsx` async server component that is
 
 1. npm install
 2. npm run relay
-3. npm build
+3. npm run build
 4. npm start
 5. open http://localhost:3000 
