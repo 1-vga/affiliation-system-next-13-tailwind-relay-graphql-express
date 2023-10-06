@@ -1,0 +1,9 @@
+Package                                       Current               Wanted  Latest  Location                                       Depended by
+@types/node                                   18.18.3              18.18.3  20.8.2  node_modules/@types/node                       affiliation-system
+@typescript-eslint/eslint-plugin               5.62.0               5.62.0   6.7.4  node_modules/@typescript-eslint/eslint-plugin  affiliation-system
+concurrently                                    7.6.0                7.6.0   8.2.1  node_modules/concurrently                      affiliation-system
+prettier                                        2.8.8                2.8.8   3.0.3  node_modules/prettier                          affiliation-system
+react-relay                       0.0.0-main-1decb243  0.0.0-main-1decb243  15.0.0  node_modules/react-relay                       affiliation-system
+relay-compiler                    0.0.0-main-1decb243  0.0.0-main-1decb243  15.0.0  node_modules/relay-compiler                    affiliation-system
+relay-runtime                     0.0.0-main-1decb243  0.0.0-main-1decb243  15.0.0  node_modules/relay-runtime                     affiliation-system
+typescript                                      4.9.5                4.9.5   5.2.2  node_modules/typescript                        affiliation-system

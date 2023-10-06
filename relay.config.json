@@ -1,0 +1,19 @@
+{
+  "root": ".",
+  "sources": {
+    "src": "affiliation-system",
+    "app": "affiliation-system"
+  },
+  "projects": {
+    "affiliation-system": {
+      "language": "typescript",
+      "schema": "schema.graphql",
+      "output": "__generated__",
+      "useImportTypeSyntax": true,
+      "featureFlags": {
+        "enable_relay_resolver_transform": true
+      },
+      "eagerEsModules": true
+    }
+  }
+}

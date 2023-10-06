@@ -1,0 +1,2144 @@
+schema {
+  query: query_root
+  mutation: mutation_root
+  subscription: subscription_root
+}
+
+"""whether this query should be cached (Hasura Cloud only)"""
+directive @cached(
+  """measured in seconds"""
+  ttl: Int! = 60
+
+  """refresh the cache entry"""
+  refresh: Boolean! = false
+) on QUERY
+
+"""
+Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'.
+"""
+input Int_comparison_exp {
+  _eq: Int
+  _gt: Int
+  _gte: Int
+  _in: [Int!]
+  _is_null: Boolean
+  _lt: Int
+  _lte: Int
+  _neq: Int
+  _nin: [Int!]
+}
+
+"""An object with globally unique ID"""
+interface Node {
+  """A globally unique identifier"""
+  id: ID!
+}
+
+type PageInfo {
+  endCursor: String!
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String!
+}
+
+"""
+Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'.
+"""
+input String_comparison_exp {
+  _eq: String
+  _gt: String
+  _gte: String
+
+  """does the column match the given case-insensitive pattern"""
+  _ilike: String
+  _in: [String!]
+
+  """
+  does the column match the given POSIX regular expression, case insensitive
+  """
+  _iregex: String
+  _is_null: Boolean
+
+  """does the column match the given pattern"""
+  _like: String
+  _lt: String
+  _lte: String
+  _neq: String
+
+  """does the column NOT match the given case-insensitive pattern"""
+  _nilike: String
+  _nin: [String!]
+
+  """
+  does the column NOT match the given POSIX regular expression, case insensitive
+  """
+  _niregex: String
+
+  """does the column NOT match the given pattern"""
+  _nlike: String
+
+  """
+  does the column NOT match the given POSIX regular expression, case sensitive
+  """
+  _nregex: String
+
+  """does the column NOT match the given SQL regular expression"""
+  _nsimilar: String
+
+  """
+  does the column match the given POSIX regular expression, case sensitive
+  """
+  _regex: String
+
+  """does the column match the given SQL regular expression"""
+  _similar: String
+}
+
+"""
+columns and relationships of "base.affiliate"
+"""
+type base_affiliate implements Node {
+  affiliate_guid: uuid!
+  commission: Int
+  created_at: timestamp!
+  id: ID!
+  modified_at: timestamp
+  modified_by: Int
+  username: String!
+}
+
+"""
+A Relay connection object on "base.affiliate"
+"""
+type base_affiliateConnection {
+  edges: [base_affiliateEdge!]!
+  pageInfo: PageInfo!
+}
+
+type base_affiliateEdge {
+  cursor: String!
+  node: base_affiliate!
+}
+
+"""
+Boolean expression to filter rows from the table "base.affiliate". All fields are combined with a logical 'AND'.
+"""
+input base_affiliate_bool_exp {
+  _and: [base_affiliate_bool_exp!]
+  _not: base_affiliate_bool_exp
+  _or: [base_affiliate_bool_exp!]
+  affiliate_guid: uuid_comparison_exp
+  commission: Int_comparison_exp
+  created_at: timestamp_comparison_exp
+  modified_at: timestamp_comparison_exp
+  modified_by: Int_comparison_exp
+  username: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "base.affiliate"
+"""
+enum base_affiliate_constraint {
+  """
+  unique or primary key constraint on columns "affiliate_guid"
+  """
+  affiliate_pkey
+
+  """
+  unique or primary key constraint on columns "affiliate_guid"
+  """
+  uq__affiliate__affiliate_guid
+}
+
+"""
+columns and relationships of "base.affiliate_customer"
+"""
+type base_affiliate_customer implements Node {
+  """An object relationship"""
+  affiliate: base_affiliate!
+  affiliate_customer_guid: uuid!
+  affiliate_guid: uuid!
+  created_at: timestamp!
+
+  """An object relationship"""
+  customer: base_customer!
+  customer_guid: uuid!
+  id: ID!
+  modified_at: timestamp
+}
+
+"""
+A Relay connection object on "base.affiliate_customer"
+"""
+type base_affiliate_customerConnection {
+  edges: [base_affiliate_customerEdge!]!
+  pageInfo: PageInfo!
+}
+
+type base_affiliate_customerEdge {
+  cursor: String!
+  node: base_affiliate_customer!
+}
+
+"""
+Boolean expression to filter rows from the table "base.affiliate_customer". All fields are combined with a logical 'AND'.
+"""
+input base_affiliate_customer_bool_exp {
+  _and: [base_affiliate_customer_bool_exp!]
+  _not: base_affiliate_customer_bool_exp
+  _or: [base_affiliate_customer_bool_exp!]
+  affiliate: base_affiliate_bool_exp
+  affiliate_customer_guid: uuid_comparison_exp
+  affiliate_guid: uuid_comparison_exp
+  created_at: timestamp_comparison_exp
+  customer: base_customer_bool_exp
+  customer_guid: uuid_comparison_exp
+  modified_at: timestamp_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "base.affiliate_customer"
+"""
+enum base_affiliate_customer_constraint {
+  """
+  unique or primary key constraint on columns "affiliate_customer_guid"
+  """
+  affiliate_customer_pkey
+
+  """
+  unique or primary key constraint on columns "affiliate_customer_guid"
+  """
+  uq__affiliate_customer_guid
+}
+
+"""
+input type for inserting data into table "base.affiliate_customer"
+"""
+input base_affiliate_customer_insert_input {
+  affiliate: base_affiliate_obj_rel_insert_input
+  affiliate_customer_guid: uuid
+  affiliate_guid: uuid
+  created_at: timestamp
+  customer: base_customer_obj_rel_insert_input
+  customer_guid: uuid
+  modified_at: timestamp
+}
+
+"""
+response of any mutation on the table "base.affiliate_customer"
+"""
+type base_affiliate_customer_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [base_affiliate_customer!]!
+}
+
+"""
+on_conflict condition type for table "base.affiliate_customer"
+"""
+input base_affiliate_customer_on_conflict {
+  constraint: base_affiliate_customer_constraint!
+  update_columns: [base_affiliate_customer_update_column!]! = []
+  where: base_affiliate_customer_bool_exp
+}
+
+"""Ordering options when selecting data from "base.affiliate_customer"."""
+input base_affiliate_customer_order_by {
+  affiliate: base_affiliate_order_by
+  affiliate_customer_guid: order_by
+  affiliate_guid: order_by
+  created_at: order_by
+  customer: base_customer_order_by
+  customer_guid: order_by
+  modified_at: order_by
+}
+
+"""primary key columns input for table: base.affiliate_customer"""
+input base_affiliate_customer_pk_columns_input {
+  affiliate_customer_guid: uuid!
+}
+
+"""
+select columns of table "base.affiliate_customer"
+"""
+enum base_affiliate_customer_select_column {
+  """column name"""
+  affiliate_customer_guid
+
+  """column name"""
+  affiliate_guid
+
+  """column name"""
+  created_at
+
+  """column name"""
+  customer_guid
+
+  """column name"""
+  modified_at
+}
+
+"""
+input type for updating data in table "base.affiliate_customer"
+"""
+input base_affiliate_customer_set_input {
+  affiliate_customer_guid: uuid
+  affiliate_guid: uuid
+  created_at: timestamp
+  customer_guid: uuid
+  modified_at: timestamp
+}
+
+"""
+update columns of table "base.affiliate_customer"
+"""
+enum base_affiliate_customer_update_column {
+  """column name"""
+  affiliate_customer_guid
+
+  """column name"""
+  affiliate_guid
+
+  """column name"""
+  created_at
+
+  """column name"""
+  customer_guid
+
+  """column name"""
+  modified_at
+}
+
+input base_affiliate_customer_updates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: base_affiliate_customer_set_input
+
+  """filter the rows which have to be updated"""
+  where: base_affiliate_customer_bool_exp!
+}
+
+"""
+input type for incrementing numeric columns in table "base.affiliate"
+"""
+input base_affiliate_inc_input {
+  commission: Int
+  modified_by: Int
+}
+
+"""
+input type for inserting data into table "base.affiliate"
+"""
+input base_affiliate_insert_input {
+  affiliate_guid: uuid
+  commission: Int
+  created_at: timestamp
+  modified_at: timestamp
+  modified_by: Int
+  username: String
+}
+
+"""
+response of any mutation on the table "base.affiliate"
+"""
+type base_affiliate_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [base_affiliate!]!
+}
+
+"""
+input type for inserting object relation for remote table "base.affiliate"
+"""
+input base_affiliate_obj_rel_insert_input {
+  data: base_affiliate_insert_input!
+
+  """upsert condition"""
+  on_conflict: base_affiliate_on_conflict
+}
+
+"""
+on_conflict condition type for table "base.affiliate"
+"""
+input base_affiliate_on_conflict {
+  constraint: base_affiliate_constraint!
+  update_columns: [base_affiliate_update_column!]! = []
+  where: base_affiliate_bool_exp
+}
+
+"""Ordering options when selecting data from "base.affiliate"."""
+input base_affiliate_order_by {
+  affiliate_guid: order_by
+  commission: order_by
+  created_at: order_by
+  modified_at: order_by
+  modified_by: order_by
+  username: order_by
+}
+
+"""primary key columns input for table: base.affiliate"""
+input base_affiliate_pk_columns_input {
+  affiliate_guid: uuid!
+}
+
+"""
+select columns of table "base.affiliate"
+"""
+enum base_affiliate_select_column {
+  """column name"""
+  affiliate_guid
+
+  """column name"""
+  commission
+
+  """column name"""
+  created_at
+
+  """column name"""
+  modified_at
+
+  """column name"""
+  modified_by
+
+  """column name"""
+  username
+}
+
+"""
+input type for updating data in table "base.affiliate"
+"""
+input base_affiliate_set_input {
+  affiliate_guid: uuid
+  commission: Int
+  created_at: timestamp
+  modified_at: timestamp
+  modified_by: Int
+  username: String
+}
+
+"""
+update columns of table "base.affiliate"
+"""
+enum base_affiliate_update_column {
+  """column name"""
+  affiliate_guid
+
+  """column name"""
+  commission
+
+  """column name"""
+  created_at
+
+  """column name"""
+  modified_at
+
+  """column name"""
+  modified_by
+
+  """column name"""
+  username
+}
+
+input base_affiliate_updates {
+  """increments the numeric columns with given value of the filtered values"""
+  _inc: base_affiliate_inc_input
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: base_affiliate_set_input
+
+  """filter the rows which have to be updated"""
+  where: base_affiliate_bool_exp!
+}
+
+"""
+columns and relationships of "base.company"
+"""
+type base_company implements Node {
+  company_guid: uuid!
+  created_at: timestamp!
+  id: ID!
+  modified_at: timestamp
+
+  """An array relationship"""
+  products(
+    """distinct select on columns"""
+    distinct_on: [base_product_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [base_product_order_by!]
+
+    """filter the rows returned"""
+    where: base_product_bool_exp
+  ): [base_product!]!
+
+  """An aggregate relationship"""
+  products_aggregate(
+    """distinct select on columns"""
+    distinct_on: [base_product_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [base_product_order_by!]
+
+    """filter the rows returned"""
+    where: base_product_bool_exp
+  ): base_product_aggregate!
+
+  """An array relationship connection"""
+  products_connection(
+    after: String
+    before: String
+
+    """distinct select on columns"""
+    distinct_on: [base_product_select_column!]
+    first: Int
+    last: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [base_product_order_by!]
+
+    """filter the rows returned"""
+    where: base_product_bool_exp
+  ): base_productConnection!
+  title: String!
+}
+
+"""
+A Relay connection object on "base.company"
+"""
+type base_companyConnection {
+  edges: [base_companyEdge!]!
+  pageInfo: PageInfo!
+}
+
+type base_companyEdge {
+  cursor: String!
+  node: base_company!
+}
+
+"""
+Boolean expression to filter rows from the table "base.company". All fields are combined with a logical 'AND'.
+"""
+input base_company_bool_exp {
+  _and: [base_company_bool_exp!]
+  _not: base_company_bool_exp
+  _or: [base_company_bool_exp!]
+  company_guid: uuid_comparison_exp
+  created_at: timestamp_comparison_exp
+  modified_at: timestamp_comparison_exp
+  products: base_product_bool_exp
+  products_aggregate: base_product_aggregate_bool_exp
+  title: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "base.company"
+"""
+enum base_company_constraint {
+  """
+  unique or primary key constraint on columns "company_guid"
+  """
+  company_pkey
+
+  """
+  unique or primary key constraint on columns "company_guid"
+  """
+  uq__company_guid
+}
+
+"""
+input type for inserting data into table "base.company"
+"""
+input base_company_insert_input {
+  company_guid: uuid
+  created_at: timestamp
+  modified_at: timestamp
+  products: base_product_arr_rel_insert_input
+  title: String
+}
+
+"""
+response of any mutation on the table "base.company"
+"""
+type base_company_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [base_company!]!
+}
+
+"""
+on_conflict condition type for table "base.company"
+"""
+input base_company_on_conflict {
+  constraint: base_company_constraint!
+  update_columns: [base_company_update_column!]! = []
+  where: base_company_bool_exp
+}
+
+"""Ordering options when selecting data from "base.company"."""
+input base_company_order_by {
+  company_guid: order_by
+  created_at: order_by
+  modified_at: order_by
+  products_aggregate: base_product_aggregate_order_by
+  title: order_by
+}
+
+"""primary key columns input for table: base.company"""
+input base_company_pk_columns_input {
+  company_guid: uuid!
+}
+
+"""
+select columns of table "base.company"
+"""
+enum base_company_select_column {
+  """column name"""
+  company_guid
+
+  """column name"""
+  created_at
+
+  """column name"""
+  modified_at
+
+  """column name"""
+  title
+}
+
+"""
+input type for updating data in table "base.company"
+"""
+input base_company_set_input {
+  company_guid: uuid
+  created_at: timestamp
+  modified_at: timestamp
+  title: String
+}
+
+"""
+update columns of table "base.company"
+"""
+enum base_company_update_column {
+  """column name"""
+  company_guid
+
+  """column name"""
+  created_at
+
+  """column name"""
+  modified_at
+
+  """column name"""
+  title
+}
+
+input base_company_updates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: base_company_set_input
+
+  """filter the rows which have to be updated"""
+  where: base_company_bool_exp!
+}
+
+"""
+columns and relationships of "base.customer"
+"""
+type base_customer implements Node {
+  created_at: timestamp!
+  customer_guid: uuid!
+  id: ID!
+  modified_at: timestamp
+  modified_by: Int
+  username: String!
+}
+
+"""
+A Relay connection object on "base.customer"
+"""
+type base_customerConnection {
+  edges: [base_customerEdge!]!
+  pageInfo: PageInfo!
+}
+
+type base_customerEdge {
+  cursor: String!
+  node: base_customer!
+}
+
+"""
+Boolean expression to filter rows from the table "base.customer". All fields are combined with a logical 'AND'.
+"""
+input base_customer_bool_exp {
+  _and: [base_customer_bool_exp!]
+  _not: base_customer_bool_exp
+  _or: [base_customer_bool_exp!]
+  created_at: timestamp_comparison_exp
+  customer_guid: uuid_comparison_exp
+  modified_at: timestamp_comparison_exp
+  modified_by: Int_comparison_exp
+  username: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "base.customer"
+"""
+enum base_customer_constraint {
+  """
+  unique or primary key constraint on columns "customer_guid"
+  """
+  customer_pkey
+
+  """
+  unique or primary key constraint on columns "customer_guid"
+  """
+  uq__customer__customer_guid
+}
+
+"""
+input type for incrementing numeric columns in table "base.customer"
+"""
+input base_customer_inc_input {
+  modified_by: Int
+}
+
+"""
+input type for inserting data into table "base.customer"
+"""
+input base_customer_insert_input {
+  created_at: timestamp
+  customer_guid: uuid
+  modified_at: timestamp
+  modified_by: Int
+  username: String
+}
+
+"""
+response of any mutation on the table "base.customer"
+"""
+type base_customer_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [base_customer!]!
+}
+
+"""
+input type for inserting object relation for remote table "base.customer"
+"""
+input base_customer_obj_rel_insert_input {
+  data: base_customer_insert_input!
+
+  """upsert condition"""
+  on_conflict: base_customer_on_conflict
+}
+
+"""
+on_conflict condition type for table "base.customer"
+"""
+input base_customer_on_conflict {
+  constraint: base_customer_constraint!
+  update_columns: [base_customer_update_column!]! = []
+  where: base_customer_bool_exp
+}
+
+"""Ordering options when selecting data from "base.customer"."""
+input base_customer_order_by {
+  created_at: order_by
+  customer_guid: order_by
+  modified_at: order_by
+  modified_by: order_by
+  username: order_by
+}
+
+"""primary key columns input for table: base.customer"""
+input base_customer_pk_columns_input {
+  customer_guid: uuid!
+}
+
+"""
+select columns of table "base.customer"
+"""
+enum base_customer_select_column {
+  """column name"""
+  created_at
+
+  """column name"""
+  customer_guid
+
+  """column name"""
+  modified_at
+
+  """column name"""
+  modified_by
+
+  """column name"""
+  username
+}
+
+"""
+input type for updating data in table "base.customer"
+"""
+input base_customer_set_input {
+  created_at: timestamp
+  customer_guid: uuid
+  modified_at: timestamp
+  modified_by: Int
+  username: String
+}
+
+"""
+update columns of table "base.customer"
+"""
+enum base_customer_update_column {
+  """column name"""
+  created_at
+
+  """column name"""
+  customer_guid
+
+  """column name"""
+  modified_at
+
+  """column name"""
+  modified_by
+
+  """column name"""
+  username
+}
+
+input base_customer_updates {
+  """increments the numeric columns with given value of the filtered values"""
+  _inc: base_customer_inc_input
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: base_customer_set_input
+
+  """filter the rows which have to be updated"""
+  where: base_customer_bool_exp!
+}
+
+"""
+columns and relationships of "base.product"
+"""
+type base_product implements Node {
+  company_guid: uuid!
+  created_at: timestamp!
+  id: ID!
+  modified_at: timestamp
+  modified_by: Int
+  price: Int!
+
+  """An object relationship"""
+  product_affiliate: base_product_affiliate
+  product_guid: uuid!
+  product_url: String!
+  title: String!
+}
+
+"""
+A Relay connection object on "base.product"
+"""
+type base_productConnection {
+  edges: [base_productEdge!]!
+  pageInfo: PageInfo!
+}
+
+type base_productEdge {
+  cursor: String!
+  node: base_product!
+}
+
+"""
+columns and relationships of "base.product_affiliate"
+"""
+type base_product_affiliate implements Node {
+  """An object relationship"""
+  affiliate: base_affiliate!
+  affiliate_guid: uuid!
+  created_at: timestamp!
+  id: ID!
+  modified_at: timestamp
+  product_affiliate_guid: uuid!
+  product_guid: uuid!
+}
+
+"""
+A Relay connection object on "base.product_affiliate"
+"""
+type base_product_affiliateConnection {
+  edges: [base_product_affiliateEdge!]!
+  pageInfo: PageInfo!
+}
+
+type base_product_affiliateEdge {
+  cursor: String!
+  node: base_product_affiliate!
+}
+
+"""
+Boolean expression to filter rows from the table "base.product_affiliate". All fields are combined with a logical 'AND'.
+"""
+input base_product_affiliate_bool_exp {
+  _and: [base_product_affiliate_bool_exp!]
+  _not: base_product_affiliate_bool_exp
+  _or: [base_product_affiliate_bool_exp!]
+  affiliate: base_affiliate_bool_exp
+  affiliate_guid: uuid_comparison_exp
+  created_at: timestamp_comparison_exp
+  modified_at: timestamp_comparison_exp
+  product_affiliate_guid: uuid_comparison_exp
+  product_guid: uuid_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "base.product_affiliate"
+"""
+enum base_product_affiliate_constraint {
+  """
+  unique or primary key constraint on columns "product_affiliate_guid"
+  """
+  product_affiliate_pkey
+
+  """
+  unique or primary key constraint on columns "product_affiliate_guid"
+  """
+  uq__product_affiliate_guid
+
+  """
+  unique or primary key constraint on columns "affiliate_guid", "product_guid"
+  """
+  uq__product_guid__affiliate_guid
+}
+
+"""
+input type for inserting data into table "base.product_affiliate"
+"""
+input base_product_affiliate_insert_input {
+  affiliate: base_affiliate_obj_rel_insert_input
+  affiliate_guid: uuid
+  created_at: timestamp
+  modified_at: timestamp
+  product_affiliate_guid: uuid
+  product_guid: uuid
+}
+
+"""
+response of any mutation on the table "base.product_affiliate"
+"""
+type base_product_affiliate_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [base_product_affiliate!]!
+}
+
+"""
+input type for inserting object relation for remote table "base.product_affiliate"
+"""
+input base_product_affiliate_obj_rel_insert_input {
+  data: base_product_affiliate_insert_input!
+
+  """upsert condition"""
+  on_conflict: base_product_affiliate_on_conflict
+}
+
+"""
+on_conflict condition type for table "base.product_affiliate"
+"""
+input base_product_affiliate_on_conflict {
+  constraint: base_product_affiliate_constraint!
+  update_columns: [base_product_affiliate_update_column!]! = []
+  where: base_product_affiliate_bool_exp
+}
+
+"""Ordering options when selecting data from "base.product_affiliate"."""
+input base_product_affiliate_order_by {
+  affiliate: base_affiliate_order_by
+  affiliate_guid: order_by
+  created_at: order_by
+  modified_at: order_by
+  product_affiliate_guid: order_by
+  product_guid: order_by
+}
+
+"""primary key columns input for table: base.product_affiliate"""
+input base_product_affiliate_pk_columns_input {
+  product_affiliate_guid: uuid!
+}
+
+"""
+select columns of table "base.product_affiliate"
+"""
+enum base_product_affiliate_select_column {
+  """column name"""
+  affiliate_guid
+
+  """column name"""
+  created_at
+
+  """column name"""
+  modified_at
+
+  """column name"""
+  product_affiliate_guid
+
+  """column name"""
+  product_guid
+}
+
+"""
+input type for updating data in table "base.product_affiliate"
+"""
+input base_product_affiliate_set_input {
+  affiliate_guid: uuid
+  created_at: timestamp
+  modified_at: timestamp
+  product_affiliate_guid: uuid
+  product_guid: uuid
+}
+
+"""
+update columns of table "base.product_affiliate"
+"""
+enum base_product_affiliate_update_column {
+  """column name"""
+  affiliate_guid
+
+  """column name"""
+  created_at
+
+  """column name"""
+  modified_at
+
+  """column name"""
+  product_affiliate_guid
+
+  """column name"""
+  product_guid
+}
+
+input base_product_affiliate_updates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: base_product_affiliate_set_input
+
+  """filter the rows which have to be updated"""
+  where: base_product_affiliate_bool_exp!
+}
+
+"""
+aggregated selection of "base.product"
+"""
+type base_product_aggregate {
+  aggregate: base_product_aggregate_fields
+  nodes: [base_product!]!
+}
+
+input base_product_aggregate_bool_exp {
+  count: base_product_aggregate_bool_exp_count
+}
+
+input base_product_aggregate_bool_exp_count {
+  arguments: [base_product_select_column!]
+  distinct: Boolean
+  filter: base_product_bool_exp
+  predicate: Int_comparison_exp!
+}
+
+"""
+aggregate fields of "base.product"
+"""
+type base_product_aggregate_fields {
+  avg: base_product_avg_fields
+  count(columns: [base_product_select_column!], distinct: Boolean): Int!
+  max: base_product_max_fields
+  min: base_product_min_fields
+  stddev: base_product_stddev_fields
+  stddev_pop: base_product_stddev_pop_fields
+  stddev_samp: base_product_stddev_samp_fields
+  sum: base_product_sum_fields
+  var_pop: base_product_var_pop_fields
+  var_samp: base_product_var_samp_fields
+  variance: base_product_variance_fields
+}
+
+"""
+order by aggregate values of table "base.product"
+"""
+input base_product_aggregate_order_by {
+  avg: base_product_avg_order_by
+  count: order_by
+  max: base_product_max_order_by
+  min: base_product_min_order_by
+  stddev: base_product_stddev_order_by
+  stddev_pop: base_product_stddev_pop_order_by
+  stddev_samp: base_product_stddev_samp_order_by
+  sum: base_product_sum_order_by
+  var_pop: base_product_var_pop_order_by
+  var_samp: base_product_var_samp_order_by
+  variance: base_product_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "base.product"
+"""
+input base_product_arr_rel_insert_input {
+  data: [base_product_insert_input!]!
+
+  """upsert condition"""
+  on_conflict: base_product_on_conflict
+}
+
+"""aggregate avg on columns"""
+type base_product_avg_fields {
+  modified_by: Float
+  price: Float
+}
+
+"""
+order by avg() on columns of table "base.product"
+"""
+input base_product_avg_order_by {
+  modified_by: order_by
+  price: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "base.product". All fields are combined with a logical 'AND'.
+"""
+input base_product_bool_exp {
+  _and: [base_product_bool_exp!]
+  _not: base_product_bool_exp
+  _or: [base_product_bool_exp!]
+  company_guid: uuid_comparison_exp
+  created_at: timestamp_comparison_exp
+  modified_at: timestamp_comparison_exp
+  modified_by: Int_comparison_exp
+  price: Int_comparison_exp
+  product_affiliate: base_product_affiliate_bool_exp
+  product_guid: uuid_comparison_exp
+  product_url: String_comparison_exp
+  title: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "base.product"
+"""
+enum base_product_constraint {
+  """
+  unique or primary key constraint on columns "product_guid"
+  """
+  product_pkey
+
+  """
+  unique or primary key constraint on columns "product_guid"
+  """
+  uq__product__product_guid
+}
+
+"""
+input type for incrementing numeric columns in table "base.product"
+"""
+input base_product_inc_input {
+  modified_by: Int
+  price: Int
+}
+
+"""
+input type for inserting data into table "base.product"
+"""
+input base_product_insert_input {
+  company_guid: uuid
+  created_at: timestamp
+  modified_at: timestamp
+  modified_by: Int
+  price: Int
+  product_affiliate: base_product_affiliate_obj_rel_insert_input
+  product_guid: uuid
+  product_url: String
+  title: String
+}
+
+"""aggregate max on columns"""
+type base_product_max_fields {
+  company_guid: uuid
+  created_at: timestamp
+  modified_at: timestamp
+  modified_by: Int
+  price: Int
+  product_guid: uuid
+  product_url: String
+  title: String
+}
+
+"""
+order by max() on columns of table "base.product"
+"""
+input base_product_max_order_by {
+  company_guid: order_by
+  created_at: order_by
+  modified_at: order_by
+  modified_by: order_by
+  price: order_by
+  product_guid: order_by
+  product_url: order_by
+  title: order_by
+}
+
+"""aggregate min on columns"""
+type base_product_min_fields {
+  company_guid: uuid
+  created_at: timestamp
+  modified_at: timestamp
+  modified_by: Int
+  price: Int
+  product_guid: uuid
+  product_url: String
+  title: String
+}
+
+"""
+order by min() on columns of table "base.product"
+"""
+input base_product_min_order_by {
+  company_guid: order_by
+  created_at: order_by
+  modified_at: order_by
+  modified_by: order_by
+  price: order_by
+  product_guid: order_by
+  product_url: order_by
+  title: order_by
+}
+
+"""
+response of any mutation on the table "base.product"
+"""
+type base_product_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [base_product!]!
+}
+
+"""
+on_conflict condition type for table "base.product"
+"""
+input base_product_on_conflict {
+  constraint: base_product_constraint!
+  update_columns: [base_product_update_column!]! = []
+  where: base_product_bool_exp
+}
+
+"""Ordering options when selecting data from "base.product"."""
+input base_product_order_by {
+  company_guid: order_by
+  created_at: order_by
+  modified_at: order_by
+  modified_by: order_by
+  price: order_by
+  product_affiliate: base_product_affiliate_order_by
+  product_guid: order_by
+  product_url: order_by
+  title: order_by
+}
+
+"""primary key columns input for table: base.product"""
+input base_product_pk_columns_input {
+  product_guid: uuid!
+}
+
+"""
+select columns of table "base.product"
+"""
+enum base_product_select_column {
+  """column name"""
+  company_guid
+
+  """column name"""
+  created_at
+
+  """column name"""
+  modified_at
+
+  """column name"""
+  modified_by
+
+  """column name"""
+  price
+
+  """column name"""
+  product_guid
+
+  """column name"""
+  product_url
+
+  """column name"""
+  title
+}
+
+"""
+input type for updating data in table "base.product"
+"""
+input base_product_set_input {
+  company_guid: uuid
+  created_at: timestamp
+  modified_at: timestamp
+  modified_by: Int
+  price: Int
+  product_guid: uuid
+  product_url: String
+  title: String
+}
+
+"""aggregate stddev on columns"""
+type base_product_stddev_fields {
+  modified_by: Float
+  price: Float
+}
+
+"""
+order by stddev() on columns of table "base.product"
+"""
+input base_product_stddev_order_by {
+  modified_by: order_by
+  price: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type base_product_stddev_pop_fields {
+  modified_by: Float
+  price: Float
+}
+
+"""
+order by stddev_pop() on columns of table "base.product"
+"""
+input base_product_stddev_pop_order_by {
+  modified_by: order_by
+  price: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type base_product_stddev_samp_fields {
+  modified_by: Float
+  price: Float
+}
+
+"""
+order by stddev_samp() on columns of table "base.product"
+"""
+input base_product_stddev_samp_order_by {
+  modified_by: order_by
+  price: order_by
+}
+
+"""aggregate sum on columns"""
+type base_product_sum_fields {
+  modified_by: Int
+  price: Int
+}
+
+"""
+order by sum() on columns of table "base.product"
+"""
+input base_product_sum_order_by {
+  modified_by: order_by
+  price: order_by
+}
+
+"""
+update columns of table "base.product"
+"""
+enum base_product_update_column {
+  """column name"""
+  company_guid
+
+  """column name"""
+  created_at
+
+  """column name"""
+  modified_at
+
+  """column name"""
+  modified_by
+
+  """column name"""
+  price
+
+  """column name"""
+  product_guid
+
+  """column name"""
+  product_url
+
+  """column name"""
+  title
+}
+
+input base_product_updates {
+  """increments the numeric columns with given value of the filtered values"""
+  _inc: base_product_inc_input
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: base_product_set_input
+
+  """filter the rows which have to be updated"""
+  where: base_product_bool_exp!
+}
+
+"""aggregate var_pop on columns"""
+type base_product_var_pop_fields {
+  modified_by: Float
+  price: Float
+}
+
+"""
+order by var_pop() on columns of table "base.product"
+"""
+input base_product_var_pop_order_by {
+  modified_by: order_by
+  price: order_by
+}
+
+"""aggregate var_samp on columns"""
+type base_product_var_samp_fields {
+  modified_by: Float
+  price: Float
+}
+
+"""
+order by var_samp() on columns of table "base.product"
+"""
+input base_product_var_samp_order_by {
+  modified_by: order_by
+  price: order_by
+}
+
+"""aggregate variance on columns"""
+type base_product_variance_fields {
+  modified_by: Float
+  price: Float
+}
+
+"""
+order by variance() on columns of table "base.product"
+"""
+input base_product_variance_order_by {
+  modified_by: order_by
+  price: order_by
+}
+
+"""mutation root"""
+type mutation_root {
+  """
+  delete data from the table: "base.affiliate"
+  """
+  delete_base_affiliate(
+    """filter the rows which have to be deleted"""
+    where: base_affiliate_bool_exp!
+  ): base_affiliate_mutation_response
+
+  """
+  delete single row from the table: "base.affiliate"
+  """
+  delete_base_affiliate_by_pk(affiliate_guid: uuid!): base_affiliate
+
+  """
+  delete data from the table: "base.affiliate_customer"
+  """
+  delete_base_affiliate_customer(
+    """filter the rows which have to be deleted"""
+    where: base_affiliate_customer_bool_exp!
+  ): base_affiliate_customer_mutation_response
+
+  """
+  delete single row from the table: "base.affiliate_customer"
+  """
+  delete_base_affiliate_customer_by_pk(affiliate_customer_guid: uuid!): base_affiliate_customer
+
+  """
+  delete data from the table: "base.company"
+  """
+  delete_base_company(
+    """filter the rows which have to be deleted"""
+    where: base_company_bool_exp!
+  ): base_company_mutation_response
+
+  """
+  delete single row from the table: "base.company"
+  """
+  delete_base_company_by_pk(company_guid: uuid!): base_company
+
+  """
+  delete data from the table: "base.customer"
+  """
+  delete_base_customer(
+    """filter the rows which have to be deleted"""
+    where: base_customer_bool_exp!
+  ): base_customer_mutation_response
+
+  """
+  delete single row from the table: "base.customer"
+  """
+  delete_base_customer_by_pk(customer_guid: uuid!): base_customer
+
+  """
+  delete data from the table: "base.product"
+  """
+  delete_base_product(
+    """filter the rows which have to be deleted"""
+    where: base_product_bool_exp!
+  ): base_product_mutation_response
+
+  """
+  delete data from the table: "base.product_affiliate"
+  """
+  delete_base_product_affiliate(
+    """filter the rows which have to be deleted"""
+    where: base_product_affiliate_bool_exp!
+  ): base_product_affiliate_mutation_response
+
+  """
+  delete single row from the table: "base.product_affiliate"
+  """
+  delete_base_product_affiliate_by_pk(product_affiliate_guid: uuid!): base_product_affiliate
+
+  """
+  delete single row from the table: "base.product"
+  """
+  delete_base_product_by_pk(product_guid: uuid!): base_product
+
+  """
+  insert data into the table: "base.affiliate"
+  """
+  insert_base_affiliate(
+    """the rows to be inserted"""
+    objects: [base_affiliate_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: base_affiliate_on_conflict
+  ): base_affiliate_mutation_response
+
+  """
+  insert data into the table: "base.affiliate_customer"
+  """
+  insert_base_affiliate_customer(
+    """the rows to be inserted"""
+    objects: [base_affiliate_customer_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: base_affiliate_customer_on_conflict
+  ): base_affiliate_customer_mutation_response
+
+  """
+  insert a single row into the table: "base.affiliate_customer"
+  """
+  insert_base_affiliate_customer_one(
+    """the row to be inserted"""
+    object: base_affiliate_customer_insert_input!
+
+    """upsert condition"""
+    on_conflict: base_affiliate_customer_on_conflict
+  ): base_affiliate_customer
+
+  """
+  insert a single row into the table: "base.affiliate"
+  """
+  insert_base_affiliate_one(
+    """the row to be inserted"""
+    object: base_affiliate_insert_input!
+
+    """upsert condition"""
+    on_conflict: base_affiliate_on_conflict
+  ): base_affiliate
+
+  """
+  insert data into the table: "base.company"
+  """
+  insert_base_company(
+    """the rows to be inserted"""
+    objects: [base_company_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: base_company_on_conflict
+  ): base_company_mutation_response
+
+  """
+  insert a single row into the table: "base.company"
+  """
+  insert_base_company_one(
+    """the row to be inserted"""
+    object: base_company_insert_input!
+
+    """upsert condition"""
+    on_conflict: base_company_on_conflict
+  ): base_company
+
+  """
+  insert data into the table: "base.customer"
+  """
+  insert_base_customer(
+    """the rows to be inserted"""
+    objects: [base_customer_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: base_customer_on_conflict
+  ): base_customer_mutation_response
+
+  """
+  insert a single row into the table: "base.customer"
+  """
+  insert_base_customer_one(
+    """the row to be inserted"""
+    object: base_customer_insert_input!
+
+    """upsert condition"""
+    on_conflict: base_customer_on_conflict
+  ): base_customer
+
+  """
+  insert data into the table: "base.product"
+  """
+  insert_base_product(
+    """the rows to be inserted"""
+    objects: [base_product_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: base_product_on_conflict
+  ): base_product_mutation_response
+
+  """
+  insert data into the table: "base.product_affiliate"
+  """
+  insert_base_product_affiliate(
+    """the rows to be inserted"""
+    objects: [base_product_affiliate_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: base_product_affiliate_on_conflict
+  ): base_product_affiliate_mutation_response
+
+  """
+  insert a single row into the table: "base.product_affiliate"
+  """
+  insert_base_product_affiliate_one(
+    """the row to be inserted"""
+    object: base_product_affiliate_insert_input!
+
+    """upsert condition"""
+    on_conflict: base_product_affiliate_on_conflict
+  ): base_product_affiliate
+
+  """
+  insert a single row into the table: "base.product"
+  """
+  insert_base_product_one(
+    """the row to be inserted"""
+    object: base_product_insert_input!
+
+    """upsert condition"""
+    on_conflict: base_product_on_conflict
+  ): base_product
+
+  """
+  update data of the table: "base.affiliate"
+  """
+  update_base_affiliate(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: base_affiliate_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: base_affiliate_set_input
+
+    """filter the rows which have to be updated"""
+    where: base_affiliate_bool_exp!
+  ): base_affiliate_mutation_response
+
+  """
+  update single row of the table: "base.affiliate"
+  """
+  update_base_affiliate_by_pk(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: base_affiliate_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: base_affiliate_set_input
+    pk_columns: base_affiliate_pk_columns_input!
+  ): base_affiliate
+
+  """
+  update data of the table: "base.affiliate_customer"
+  """
+  update_base_affiliate_customer(
+    """sets the columns of the filtered rows to the given values"""
+    _set: base_affiliate_customer_set_input
+
+    """filter the rows which have to be updated"""
+    where: base_affiliate_customer_bool_exp!
+  ): base_affiliate_customer_mutation_response
+
+  """
+  update single row of the table: "base.affiliate_customer"
+  """
+  update_base_affiliate_customer_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: base_affiliate_customer_set_input
+    pk_columns: base_affiliate_customer_pk_columns_input!
+  ): base_affiliate_customer
+
+  """
+  update multiples rows of table: "base.affiliate_customer"
+  """
+  update_base_affiliate_customer_many(
+    """updates to execute, in order"""
+    updates: [base_affiliate_customer_updates!]!
+  ): [base_affiliate_customer_mutation_response]
+
+  """
+  update multiples rows of table: "base.affiliate"
+  """
+  update_base_affiliate_many(
+    """updates to execute, in order"""
+    updates: [base_affiliate_updates!]!
+  ): [base_affiliate_mutation_response]
+
+  """
+  update data of the table: "base.company"
+  """
+  update_base_company(
+    """sets the columns of the filtered rows to the given values"""
+    _set: base_company_set_input
+
+    """filter the rows which have to be updated"""
+    where: base_company_bool_exp!
+  ): base_company_mutation_response
+
+  """
+  update single row of the table: "base.company"
+  """
+  update_base_company_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: base_company_set_input
+    pk_columns: base_company_pk_columns_input!
+  ): base_company
+
+  """
+  update multiples rows of table: "base.company"
+  """
+  update_base_company_many(
+    """updates to execute, in order"""
+    updates: [base_company_updates!]!
+  ): [base_company_mutation_response]
+
+  """
+  update data of the table: "base.customer"
+  """
+  update_base_customer(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: base_customer_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: base_customer_set_input
+
+    """filter the rows which have to be updated"""
+    where: base_customer_bool_exp!
+  ): base_customer_mutation_response
+
+  """
+  update single row of the table: "base.customer"
+  """
+  update_base_customer_by_pk(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: base_customer_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: base_customer_set_input
+    pk_columns: base_customer_pk_columns_input!
+  ): base_customer
+
+  """
+  update multiples rows of table: "base.customer"
+  """
+  update_base_customer_many(
+    """updates to execute, in order"""
+    updates: [base_customer_updates!]!
+  ): [base_customer_mutation_response]
+
+  """
+  update data of the table: "base.product"
+  """
+  update_base_product(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: base_product_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: base_product_set_input
+
+    """filter the rows which have to be updated"""
+    where: base_product_bool_exp!
+  ): base_product_mutation_response
+
+  """
+  update data of the table: "base.product_affiliate"
+  """
+  update_base_product_affiliate(
+    """sets the columns of the filtered rows to the given values"""
+    _set: base_product_affiliate_set_input
+
+    """filter the rows which have to be updated"""
+    where: base_product_affiliate_bool_exp!
+  ): base_product_affiliate_mutation_response
+
+  """
+  update single row of the table: "base.product_affiliate"
+  """
+  update_base_product_affiliate_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: base_product_affiliate_set_input
+    pk_columns: base_product_affiliate_pk_columns_input!
+  ): base_product_affiliate
+
+  """
+  update multiples rows of table: "base.product_affiliate"
+  """
+  update_base_product_affiliate_many(
+    """updates to execute, in order"""
+    updates: [base_product_affiliate_updates!]!
+  ): [base_product_affiliate_mutation_response]
+
+  """
+  update single row of the table: "base.product"
+  """
+  update_base_product_by_pk(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: base_product_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: base_product_set_input
+    pk_columns: base_product_pk_columns_input!
+  ): base_product
+
+  """
+  update multiples rows of table: "base.product"
+  """
+  update_base_product_many(
+    """updates to execute, in order"""
+    updates: [base_product_updates!]!
+  ): [base_product_mutation_response]
+}
+
+"""column ordering options"""
+enum order_by {
+  """in ascending order, nulls last"""
+  asc
+
+  """in ascending order, nulls first"""
+  asc_nulls_first
+
+  """in ascending order, nulls last"""
+  asc_nulls_last
+
+  """in descending order, nulls first"""
+  desc
+
+  """in descending order, nulls first"""
+  desc_nulls_first
+
+  """in descending order, nulls last"""
+  desc_nulls_last
+}
+
+type query_root {
+  """
+  fetch data from the table: "base.affiliate"
+  """
+  base_affiliate_connection(
+    after: String
+    before: String
+
+    """distinct select on columns"""
+    distinct_on: [base_affiliate_select_column!]
+    first: Int
+    last: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [base_affiliate_order_by!]
+
+    """filter the rows returned"""
+    where: base_affiliate_bool_exp
+  ): base_affiliateConnection!
+
+  """
+  fetch data from the table: "base.affiliate_customer"
+  """
+  base_affiliate_customer_connection(
+    after: String
+    before: String
+
+    """distinct select on columns"""
+    distinct_on: [base_affiliate_customer_select_column!]
+    first: Int
+    last: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [base_affiliate_customer_order_by!]
+
+    """filter the rows returned"""
+    where: base_affiliate_customer_bool_exp
+  ): base_affiliate_customerConnection!
+
+  """
+  fetch data from the table: "base.company"
+  """
+  base_company_connection(
+    after: String
+    before: String
+
+    """distinct select on columns"""
+    distinct_on: [base_company_select_column!]
+    first: Int
+    last: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [base_company_order_by!]
+
+    """filter the rows returned"""
+    where: base_company_bool_exp
+  ): base_companyConnection!
+
+  """
+  fetch data from the table: "base.customer"
+  """
+  base_customer_connection(
+    after: String
+    before: String
+
+    """distinct select on columns"""
+    distinct_on: [base_customer_select_column!]
+    first: Int
+    last: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [base_customer_order_by!]
+
+    """filter the rows returned"""
+    where: base_customer_bool_exp
+  ): base_customerConnection!
+
+  """
+  fetch data from the table: "base.product_affiliate"
+  """
+  base_product_affiliate_connection(
+    after: String
+    before: String
+
+    """distinct select on columns"""
+    distinct_on: [base_product_affiliate_select_column!]
+    first: Int
+    last: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [base_product_affiliate_order_by!]
+
+    """filter the rows returned"""
+    where: base_product_affiliate_bool_exp
+  ): base_product_affiliateConnection!
+
+  """
+  fetch data from the table: "base.product"
+  """
+  base_product_connection(
+    after: String
+    before: String
+
+    """distinct select on columns"""
+    distinct_on: [base_product_select_column!]
+    first: Int
+    last: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [base_product_order_by!]
+
+    """filter the rows returned"""
+    where: base_product_bool_exp
+  ): base_productConnection!
+  node(
+    """A globally unique id"""
+    id: ID!
+  ): Node
+}
+
+type subscription_root {
+  """
+  fetch data from the table: "base.affiliate"
+  """
+  base_affiliate_connection(
+    after: String
+    before: String
+
+    """distinct select on columns"""
+    distinct_on: [base_affiliate_select_column!]
+    first: Int
+    last: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [base_affiliate_order_by!]
+
+    """filter the rows returned"""
+    where: base_affiliate_bool_exp
+  ): base_affiliateConnection!
+
+  """
+  fetch data from the table: "base.affiliate_customer"
+  """
+  base_affiliate_customer_connection(
+    after: String
+    before: String
+
+    """distinct select on columns"""
+    distinct_on: [base_affiliate_customer_select_column!]
+    first: Int
+    last: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [base_affiliate_customer_order_by!]
+
+    """filter the rows returned"""
+    where: base_affiliate_customer_bool_exp
+  ): base_affiliate_customerConnection!
+
+  """
+  fetch data from the table: "base.company"
+  """
+  base_company_connection(
+    after: String
+    before: String
+
+    """distinct select on columns"""
+    distinct_on: [base_company_select_column!]
+    first: Int
+    last: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [base_company_order_by!]
+
+    """filter the rows returned"""
+    where: base_company_bool_exp
+  ): base_companyConnection!
+
+  """
+  fetch data from the table: "base.customer"
+  """
+  base_customer_connection(
+    after: String
+    before: String
+
+    """distinct select on columns"""
+    distinct_on: [base_customer_select_column!]
+    first: Int
+    last: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [base_customer_order_by!]
+
+    """filter the rows returned"""
+    where: base_customer_bool_exp
+  ): base_customerConnection!
+
+  """
+  fetch data from the table: "base.product_affiliate"
+  """
+  base_product_affiliate_connection(
+    after: String
+    before: String
+
+    """distinct select on columns"""
+    distinct_on: [base_product_affiliate_select_column!]
+    first: Int
+    last: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [base_product_affiliate_order_by!]
+
+    """filter the rows returned"""
+    where: base_product_affiliate_bool_exp
+  ): base_product_affiliateConnection!
+
+  """
+  fetch data from the table: "base.product"
+  """
+  base_product_connection(
+    after: String
+    before: String
+
+    """distinct select on columns"""
+    distinct_on: [base_product_select_column!]
+    first: Int
+    last: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [base_product_order_by!]
+
+    """filter the rows returned"""
+    where: base_product_bool_exp
+  ): base_productConnection!
+  node(
+    """A globally unique id"""
+    id: ID!
+  ): Node
+}
+
+scalar timestamp
+
+"""
+Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'.
+"""
+input timestamp_comparison_exp {
+  _eq: timestamp
+  _gt: timestamp
+  _gte: timestamp
+  _in: [timestamp!]
+  _is_null: Boolean
+  _lt: timestamp
+  _lte: timestamp
+  _neq: timestamp
+  _nin: [timestamp!]
+}
+
+scalar uuid
+
+"""
+Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'.
+"""
+input uuid_comparison_exp {
+  _eq: uuid
+  _gt: uuid
+  _gte: uuid
+  _in: [uuid!]
+  _is_null: Boolean
+  _lt: uuid
+  _lte: uuid
+  _neq: uuid
+  _nin: [uuid!]
+}
+
